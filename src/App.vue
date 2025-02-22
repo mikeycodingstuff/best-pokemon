@@ -2,64 +2,65 @@
 import { ref, onMounted } from 'vue';
 import { supabase } from './lib/supabaseClient';
 
-// Reactive reference for the two Pokémon data
 const pokemons = ref([]);
 
-// Fetch Pokémon data when the component is mounted
 onMounted(async () => {
+  await fetchPokemons();
+});
+
+const fetchPokemons = async () => {
   const { data, error } = await supabase.from('pokemons').select('*');
   if (error) {
     console.error('Error fetching Pokémon:', error);
   } else {
-    // Randomly select 2 Pokémon
     pokemons.value = getRandomPokemons(data, 2);
   }
-});
+};
 
-// Function to randomly select n Pokémon from the list
 const getRandomPokemons = (pokemonsList, n) => {
-  const shuffled = pokemonsList.sort(() => 0.5 - Math.random());
+  const shuffled = [...pokemonsList].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, n);
 };
 
-// Function to handle voting
-const handleVote = async (pokemonId) => {
-  const { data, error } = await supabase
-    .from('pokemons')
-    .update({ votes: (votes) => votes + 1 })
-    .eq('id', pokemonId);
+const handleVote = async (winnerId) => {
+  if (pokemons.value.length !== 2) return;
 
-  if (error) {
-    console.error('Error voting:', error);
+  const [firstPokemon, secondPokemon] = pokemons.value;
+  const loserId = firstPokemon.id === winnerId ? secondPokemon.id : firstPokemon.id;
+
+  const { error: winError } = await supabase
+    .from('pokemons')
+    .update({ wins: firstPokemon.id === winnerId ? firstPokemon.wins + 1 : secondPokemon.wins + 1 })
+    .eq('id', winnerId);
+
+  const { error: lossError } = await supabase
+    .from('pokemons')
+    .update({ losses: firstPokemon.id === loserId ? firstPokemon.losses + 1 : secondPokemon.losses + 1 })
+    .eq('id', loserId);
+
+  if (winError || lossError) {
+    console.error('Error updating votes:', winError || lossError);
   } else {
     console.log('Vote successful!');
-    // After voting, select a new pair of random Pokémon
-    const { data: allPokemons, error: fetchError } = await supabase
-      .from('pokemons')
-      .select('*');
-
-    if (fetchError) {
-      console.error('Error fetching new Pokémon:', fetchError);
-    } else {
-      pokemons.value = getRandomPokemons(allPokemons, 2);
-    }
+    await fetchPokemons();
   }
 };
 </script>
 
 <template>
-  <div class="flex justify-center ">
-    <h1>Vote for your favorite Pokémon!</h1>
-    <div v-if="pokemons.length === 2">
-      <div v-for="pokemon in pokemons" :key="pokemon.id">
-        <img :src="pokemon.image_url" :alt="pokemon.name" width="150" />
-        <h3>{{ pokemon.name }}</h3>
-      </div>
-      <div>
-        <button @click="handleVote(pokemons[0].id)">Vote for {{ pokemons[0].name }}</button>
-        <button @click="handleVote(pokemons[1].id)">Vote for {{ pokemons[1].name }}</button>
-      </div>
+  <div class="h-screen w-screen bg-stone-900">
+    <div class="py-12">
+      <h1 class="text-7xl text-center">Vote for your favorite Pokémon!</h1>
     </div>
-    <p v-else>Loading Pokémon...</p>
+    <div class="flex justify-center items-center mt-12">
+      <div v-if="pokemons.length === 2" class="flex gap-32">
+        <div v-for="pokemon in pokemons" :key="pokemon.id" class="flex flex-col items-center">
+          <img :src="pokemon.image_url" :alt="pokemon.name" width="150" />
+          <h3>{{ pokemon.name }}</h3>
+          <button @click="handleVote(pokemon.id)" class="border p-2 px-4 m-3 rounded-lg hover:cursor-pointer hover:bg-indigo-500 transition-all duration-300 hover:scale-110">Vote</button>
+        </div>
+      </div>
+      <p v-else>Loading Pokémon...</p>
+    </div>
   </div>
 </template>
