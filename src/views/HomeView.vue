@@ -63,7 +63,7 @@ const handleVote = async (winnerId) => {
     <div class="flex justify-center items-center mt-12">
       <div v-if="pokemons.length === 2" class="flex gap-32">
         <div v-for="pokemon in pokemons" :key="pokemon.id" class="flex flex-col items-center">
-          <img :src="pokemon.image_url" :alt="pokemon.name" width="150" height="150" />
+          <img :src="pokemon.image_url" :alt="pokemon.name" width="200" height="200" />
           <h3>{{ pokemon.name }}</h3>
           <button @click="handleVote(pokemon.id)" class="px-4 py-2 mt-4 rounded-lg bg-indigo-500 hover:cursor-pointer hover:bg-indigo-700 transition duration-300 hover:scale-110">Vote</button>
         </div>
