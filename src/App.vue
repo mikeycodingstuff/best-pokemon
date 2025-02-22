@@ -25,7 +25,7 @@ const getRandomPokemons = (pokemonsList, n) => {
 // Function to handle voting
 const handleVote = async (pokemonId) => {
   const { data, error } = await supabase
-    .from('pokemon')
+    .from('pokemons')
     .update({ votes: (votes) => votes + 1 })
     .eq('id', pokemonId);
 
