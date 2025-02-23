@@ -51,7 +51,7 @@ const handleVote = async (winnerId) => {
 <template>
   <div class="h-screen w-screen bg-stone-900">
     <div class="py-12">
-      <h1 class="text-3xl text-center">Vote for your favorite Pokémon!</h1>
+      <h1 class="text-3xl text-center">Vote for your favourite Pokémon!</h1>
     </div>
     <div class="flex justify-center items-center mt-12">
       <div v-if="pokemons.length === 2" class="flex gap-32">
