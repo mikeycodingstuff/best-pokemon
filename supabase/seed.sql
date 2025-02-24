@@ -1941,3 +1941,6 @@ VALUES ('1', 'bulbasaur', 'https://raw.githubusercontent.com/PokeAPI/sprites/mas
         0),
        ('1025', 'pecharunt', 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1025.png', 0,
         0);
+
+UPDATE pokemons
+SET wins = FLOOR(RANDOM() * 100), losses = FLOOR(RANDOM() * 100);
