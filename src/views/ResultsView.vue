@@ -66,7 +66,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 p-6">
+  <div class="min-h-screen bg-stone-900 p-6 pt-12">
     <div class="max-w-2xl mx-auto">
       <div
         v-for="pokemon in pokemons"
