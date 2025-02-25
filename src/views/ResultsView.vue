@@ -1,11 +1,12 @@
 <script setup>
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted, computed, onUnmounted } from "vue";
 import { supabase } from "../lib/supabaseClient";
 import collect from "collect.js";
 
 const pokemons = ref(collect());
 const sortBy = ref("winRate");
 const desc = ref(false);
+const showBackToTop = ref(false);
 
 const formattedId = (id) => `#${id.toString().padStart(4, "0")}`;
 
@@ -52,14 +53,30 @@ const toggleSortOrder = () => {
   desc.value = !desc.value;
 };
 
+const onScroll = () => {
+  showBackToTop.value = window.scrollY > 300;
+};
+
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth",
+  });
+};
+
 onMounted(() => {
   fetchPokemons();
+  window.addEventListener("scroll", onScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener("scroll", onScroll);
 });
 </script>
 
 <template>
   <div class="min-h-screen bg-stone-900 p-6 pt-12">
-    <div class="max-w-2xl mx-auto flex flex-col gap-4">
+    <div class="max-w-2xl mx-auto flex flex-col gap-4 relative">
       <div class="flex justify-between items-center mb-4">
         <select v-model="sortBy" class="p-2 rounded bg-stone-800 text-stone-300">
           <option value="id">ID</option>
@@ -95,6 +112,13 @@ onMounted(() => {
           </div>
         </div>
       </div>
+      <button
+        v-if="showBackToTop"
+        @click="scrollToTop"
+        class="fixed bottom-4 right-4 bg-indigo-500 px-4 py-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all"
+      >
+        ↑
+      </button>
     </div>
   </div>
 </template>
