@@ -1,13 +1,13 @@
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { supabase } from "../lib/supabaseClient";
 import collect from "collect.js";
 
 const pokemons = ref(collect());
+const sortBy = ref("winRate");
+const sortOrder = ref("desc");
 
-const formattedId = (id) => {
-  return `#${id.toString().padStart(4, "0")}`;
-};
+const formattedId = (id) => `#${id.toString().padStart(4, "0")}`;
 
 const winPercentage = (wins, losses) => {
   const total = wins + losses;
@@ -21,15 +21,25 @@ const fetchPokemons = async () => {
 
   if (error) {
     console.error("Error fetching Pokémon results:", error);
+    return;
   }
 
-  pokemons.value = collect(data)
-    .map((pokemon) => ({
-      ...pokemon,
-      winRate: winPercentage(pokemon.wins, pokemon.losses),
-    }))
-    .sortBy("wins")
-    .sortByDesc("winRate")
+  pokemons.value = collect(data).map((pokemon) => ({
+    ...pokemon,
+    winRate: winPercentage(pokemon.wins, pokemon.losses),
+  }));
+};
+
+const sortedPokemons = computed(() => {
+  if (sortOrder.value === "desc") {
+    return pokemons.value.sortByDesc(sortBy.value);
+  }
+
+  return pokemons.value.sortBy(sortBy.value);
+});
+
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
 };
 
 onMounted(() => {
@@ -40,8 +50,21 @@ onMounted(() => {
 <template>
   <div class="min-h-screen bg-stone-900 p-6 pt-12">
     <div class="max-w-2xl mx-auto flex flex-col gap-4">
+      <div class="flex justify-between items-center mb-4">
+        <select v-model="sortBy" class="p-2 rounded bg-stone-800 text-stone-300">
+          <option value="id">ID</option>
+          <option value="name">Name</option>
+          <option value="wins">Wins</option>
+          <option value="losses">Losses</option>
+          <option value="winRate">Win Rate</option>
+        </select>
+        <span @click="toggleSortOrder" class="cursor-pointer text-stone-300 text-2xl">
+          {{ sortOrder === "asc" ? "↑" : "↓" }}
+        </span>
+      </div>
+
       <div
-        v-for="pokemon in pokemons"
+        v-for="pokemon in sortedPokemons"
         :key="pokemon.id"
         class="bg-stone-800 p-4 rounded-lg flex items-center"
       >
@@ -62,9 +85,6 @@ onMounted(() => {
           </div>
         </div>
       </div>
-
-      <p v-if="loading" class="text-center text-stone-500 mt-4">Loading more...</p>
-      <p v-if="allLoaded" class="text-center text-stone-500 mt-4">No more Pokémon to load.</p>
     </div>
   </div>
 </template>
