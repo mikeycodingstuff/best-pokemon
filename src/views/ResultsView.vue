@@ -28,8 +28,8 @@ const fetchPokemons = async () => {
       ...pokemon,
       winRate: winPercentage(pokemon.wins, pokemon.losses),
     }))
+    .sortBy("wins")
     .sortByDesc("winRate")
-    .sortByDesc("wins");
 };
 
 onMounted(() => {
