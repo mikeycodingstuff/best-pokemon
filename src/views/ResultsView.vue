@@ -5,7 +5,7 @@ import collect from "collect.js";
 
 const pokemons = ref(collect());
 const sortBy = ref("winRate");
-const sortOrder = ref("desc");
+const desc = ref(false);
 
 const formattedId = (id) => `#${id.toString().padStart(4, "0")}`;
 
@@ -31,15 +31,25 @@ const fetchPokemons = async () => {
 };
 
 const sortedPokemons = computed(() => {
-  if (sortOrder.value === "desc") {
-    return pokemons.value.sortByDesc(sortBy.value);
+  const reverseSortFields = collect(["wins", "losses", "winRate"]);
+
+  if (desc.value) {
+    if (reverseSortFields.contains(sortBy.value)) {
+      return pokemons.value.sortBy(sortBy.value);
+    } else {
+      return pokemons.value.sortByDesc(sortBy.value);
+    }
   }
 
-  return pokemons.value.sortBy(sortBy.value);
+  if (reverseSortFields.contains(sortBy.value)) {
+    return pokemons.value.sortByDesc(sortBy.value);
+  } else {
+    return pokemons.value.sortBy(sortBy.value);
+  }
 });
 
 const toggleSortOrder = () => {
-  sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+  desc.value = !desc.value;
 };
 
 onMounted(() => {
@@ -59,7 +69,7 @@ onMounted(() => {
           <option value="winRate">Win Rate</option>
         </select>
         <span @click="toggleSortOrder" class="cursor-pointer text-stone-300 text-2xl">
-          {{ sortOrder === "asc" ? "↑" : "↓" }}
+          {{ desc === false ? "↑" : "↓" }}
         </span>
       </div>
 
