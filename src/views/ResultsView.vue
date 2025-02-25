@@ -36,6 +36,10 @@ const sortedPokemons = computed(() => {
 
   if (desc.value) {
     if (reverseSortFields.contains(sortBy.value)) {
+      if (sortBy.value === "wins" || sortBy.value === "losses") {
+        return pokemons.value.sortByDesc("winRate").sortBy(sortBy.value);
+      }
+
       return pokemons.value.sortBy(sortBy.value);
     } else {
       return pokemons.value.sortByDesc(sortBy.value);
@@ -43,6 +47,10 @@ const sortedPokemons = computed(() => {
   }
 
   if (reverseSortFields.contains(sortBy.value)) {
+    if (sortBy.value === "wins" || sortBy.value === "losses") {
+      return pokemons.value.sortBy("winRate").sortByDesc(sortBy.value);
+    }
+
     return pokemons.value.sortByDesc(sortBy.value);
   } else {
     return pokemons.value.sortBy(sortBy.value);
