@@ -41,7 +41,7 @@ const sortedPokemons = computed(() => {
       }
 
       if (sortBy.value === "winRate") {
-        return pokemons.value.sortBy("wins").sortBy(sortBy.value);
+        return pokemons.value.sortBy('losses').sortByDesc("wins").sortBy(sortBy.value);
       }
 
       return pokemons.value.sortBy(sortBy.value);
@@ -56,7 +56,7 @@ const sortedPokemons = computed(() => {
     }
 
     if (sortBy.value === "winRate") {
-      return pokemons.value.sortByDesc("wins").sortByDesc(sortBy.value);
+      return pokemons.value.sortByDesc('losses').sortBy("wins").sortByDesc(sortBy.value);
     }
 
     return pokemons.value.sortByDesc(sortBy.value);
