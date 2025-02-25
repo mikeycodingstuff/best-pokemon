@@ -1,12 +1,13 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from "vue";
+import { ref, onMounted } from "vue";
 import { supabase } from "../lib/supabaseClient";
+import collect from "collect.js";
 
-const pokemons = ref([]);
-const limit = 20;
-const offset = ref(0);
-const loading = ref(false);
-const allLoaded = ref(false);
+const pokemons = ref(collect());
+
+const formattedId = (id) => {
+  return `#${id.toString().padStart(4, "0")}`;
+};
 
 const winPercentage = (wins, losses) => {
   const total = wins + losses;
@@ -14,9 +15,6 @@ const winPercentage = (wins, losses) => {
 };
 
 const fetchPokemons = async () => {
-  if (loading.value || allLoaded.value) return;
-  loading.value = true;
-
   const { data, error } = await supabase
     .from("pokemons")
     .select("id, name, wins, losses, image_url");
@@ -25,62 +23,43 @@ const fetchPokemons = async () => {
     console.error("Error fetching Pokémon results:", error);
   }
 
-  const sortedPokemons = data
+  pokemons.value = collect(data)
     .map((pokemon) => ({
       ...pokemon,
       winRate: winPercentage(pokemon.wins, pokemon.losses),
     }))
-    .sort((a, b) => {
-      if (b.winRate === a.winRate) {
-        return b.wins - a.wins;
-      }
-
-      return b.winRate - a.winRate;
-    });
-
-  // Paginate: Add only the next set of Pokémon
-  const newPokemons = sortedPokemons.slice(offset.value, offset.value + limit);
-  if (newPokemons.length < limit) allLoaded.value = true;
-
-  pokemons.value.push(...newPokemons);
-  offset.value += limit;
-
-  loading.value = false;
-};
-
-// Infinite scrolling
-const handleScroll = () => {
-  if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-    fetchPokemons();
-  }
+    .sortByDesc("winRate")
+    .sortByDesc("wins");
 };
 
 onMounted(() => {
   fetchPokemons();
-  window.addEventListener("scroll", handleScroll);
-});
-
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
 });
 </script>
 
 <template>
   <div class="min-h-screen bg-stone-900 p-6 pt-12">
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto flex flex-col gap-4">
       <div
         v-for="pokemon in pokemons"
         :key="pokemon.id"
-        class="bg-stone-800 p-4 rounded-lg mb-4 flex items-center"
+        class="bg-stone-800 p-4 rounded-lg flex items-center"
       >
         <img :src="pokemon.image_url" :alt="pokemon.name" class="w-16 h-16 rounded-full" />
-        <div class="ml-4">
-          <h3 class="text-xl font-bold">{{ pokemon.name }}</h3>
-          <p class="text-stone-400">
-            <span class="text-green-400/80">Wins: {{ pokemon.wins }}</span> |
-            <span class="text-red-400/80">Losses: {{ pokemon.losses }}</span>
-          </p>
-          <p class="font-semibold">Win Rate: {{ pokemon.winRate.toFixed(1) }}%</p>
+
+        <div class="ml-4 w-full flex flex-col gap-y-2">
+          <div class="flex justify-between">
+            <h3 class="text-xl font-bold">{{ pokemon.name }}</h3>
+            <p class="text-stone-400">ID: {{ formattedId(pokemon.id) }}</p>
+          </div>
+
+          <div class="flex justify-between">
+            <p class="font-semibold text-stone-300">win rate: {{ pokemon.winRate.toFixed(1) }}%</p>
+            <div class="text-stone-300 flex gap-2">
+              <span class="text-green-400/80">{{ pokemon.wins }} wins</span>
+              <span class="text-red-400/80">{{ pokemon.losses }} losses</span>
+            </div>
+          </div>
         </div>
       </div>
 
