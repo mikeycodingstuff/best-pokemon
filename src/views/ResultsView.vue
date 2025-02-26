@@ -41,7 +41,7 @@ const sortedPokemons = computed(() => {
       }
 
       if (sortBy.value === "winRate") {
-        return pokemons.value.sortBy('losses').sortByDesc("wins").sortBy(sortBy.value);
+        return pokemons.value.sortBy("losses").sortByDesc("wins").sortBy(sortBy.value);
       }
 
       return pokemons.value.sortBy(sortBy.value);
@@ -56,7 +56,7 @@ const sortedPokemons = computed(() => {
     }
 
     if (sortBy.value === "winRate") {
-      return pokemons.value.sortByDesc('losses').sortBy("wins").sortByDesc(sortBy.value);
+      return pokemons.value.sortByDesc("losses").sortBy("wins").sortByDesc(sortBy.value);
     }
 
     return pokemons.value.sortByDesc(sortBy.value);
@@ -94,16 +94,22 @@ onUnmounted(() => {
   <div class="min-h-screen bg-stone-900 p-6 pt-12">
     <div class="max-w-2xl mx-auto flex flex-col gap-4 relative">
       <div class="flex justify-between items-center mb-4">
-        <select v-model="sortBy" class="p-2 rounded bg-stone-800 text-stone-300">
-          <option value="id">ID</option>
-          <option value="name">Name</option>
-          <option value="wins">Wins</option>
-          <option value="losses">Losses</option>
-          <option value="winRate">Win Rate</option>
+        <select
+          v-model="sortBy"
+          class="p-2 rounded bg-stone-800 text-stone-300 border-r-8 border-transparent text-sm"
+        >
+          <option value="id">id</option>
+          <option value="name">name</option>
+          <option value="wins">wins</option>
+          <option value="losses">losses</option>
+          <option value="winRate">win rate</option>
         </select>
-        <span @click="toggleSortOrder" class="cursor-pointer text-stone-300 text-2xl">
+        <button
+          @click="toggleSortOrder"
+          class="cursor-pointer rounded px-2 py-1 bg-stone-800 text-stone-300"
+        >
           {{ desc === false ? "↑" : "↓" }}
-        </span>
+        </button>
       </div>
 
       <div
