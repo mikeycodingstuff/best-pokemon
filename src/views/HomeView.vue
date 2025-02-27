@@ -1,8 +1,9 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import { supabase } from "../lib/supabaseClient";
+import collect from "collect.js";
 
-const pokemons = ref([]);
+const pokemons = ref(collect());
 
 onMounted(async () => {
   await fetchPokemons();
@@ -18,12 +19,11 @@ const fetchPokemons = async () => {
 };
 
 const getRandomPokemons = (pokemonsList, n) => {
-  const shuffled = [...pokemonsList].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, n);
+  return collect(pokemonsList).random(n);
 };
 
 const handleVote = async (winnerId) => {
-  if (pokemons.value.length !== 2) return;
+  if (pokemons.value.count() !== 2) return;
 
   const [firstPokemon, secondPokemon] = pokemons.value;
   const loserId = firstPokemon.id === winnerId ? secondPokemon.id : firstPokemon.id;
@@ -55,7 +55,7 @@ const handleVote = async (winnerId) => {
       <h1 class="text-3xl text-center">Vote for your favourite Pokémon!</h1>
     </div>
     <div class="flex justify-center items-center mt-12">
-      <div v-if="pokemons.length === 2" class="flex gap-32">
+      <div v-if="pokemons.count() === 2" class="flex gap-32">
         <div v-for="pokemon in pokemons" :key="pokemon.id" class="flex flex-col items-center">
           <img
             :src="pokemon.image_url"
