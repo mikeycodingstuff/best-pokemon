@@ -91,12 +91,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-stone-900 p-6 pt-12">
+  <div class="bg-stone-900 p-6 pt-12">
     <div class="max-w-2xl mx-auto flex flex-col gap-4 relative">
-      <div class="flex justify-between items-center mb-4">
+      <div class="flex justify-between items-center">
         <select
           v-model="sortBy"
-          class="p-2 rounded bg-stone-800 text-stone-300 border-r-8 border-transparent text-sm"
+          class="p-2 rounded bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 border-r-8 border-transparent"
         >
           <option value="id">id</option>
           <option value="name">name</option>
@@ -106,9 +106,14 @@ onUnmounted(() => {
         </select>
         <button
           @click="toggleSortOrder"
-          class="cursor-pointer rounded px-2 py-1 bg-stone-800 text-stone-300"
+          class="cursor-pointer rounded p-2 bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700"
         >
-          {{ desc === false ? "↑" : "↓" }}
+          <svg v-if="desc" class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 14L12 8L18 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg v-else class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 10L12 16L18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </button>
       </div>
 
@@ -137,9 +142,11 @@ onUnmounted(() => {
       <button
         v-if="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-4 right-4 bg-indigo-500 px-4 py-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all"
+        class="fixed bottom-4 right-4 bg-indigo-500 p-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all"
       >
-        ↑
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6 14L12 8L18 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </button>
     </div>
   </div>
