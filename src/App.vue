@@ -1,12 +1,18 @@
 <template>
-  <div class="p-3">
-    <RouterLink to="/" class="flex justify-center text-7xl">best pokémon</RouterLink>
-    <nav class="flex p-3 gap-3 justify-center">
-      <RouterLink to="/about">about</RouterLink>
-      <RouterLink to="/results">results</RouterLink>
-    </nav>
+  <div class="h-screen">
+    <div class="p-3">
+      <div class="flex justify-center">
+        <RouterLink to="/" class="text-7xl">best pokémon</RouterLink>
+      </div>
+      <nav class="flex p-3 gap-5 justify-center mt-5">
+        <RouterLink to="/">home</RouterLink>
+        <RouterLink to="/about">about</RouterLink>
+        <RouterLink to="/results">results</RouterLink>
+      </nav>
+    </div>
+
+    <main>
+      <RouterView />
+    </main>
   </div>
-  <main>
-    <RouterView />
-  </main>
 </template>
