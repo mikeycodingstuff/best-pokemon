@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/ netlify/",
+    "format:check": "prettier --check src/ netlify/"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.48.1",
