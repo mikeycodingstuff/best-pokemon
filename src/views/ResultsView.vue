@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
+import ErrorMessage from '@/components/ErrorMessage.vue'
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
@@ -143,13 +144,7 @@ onUnmounted(() => {
         </button>
       </div>
 
-      <div v-if="errorMessage" class="flex justify-center mt-12">
-        <p
-          class="text-red-500 text-xl font-semibold bg-red-400/30 rounded-lg px-4 py-2 text-center"
-        >
-          {{ errorMessage }}
-        </p>
-      </div>
+      <ErrorMessage v-if="errorMessage" :message="errorMessage" class="mt-12" />
 
       <div
         v-for="pokemon in sortedPokemons"

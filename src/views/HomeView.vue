@@ -2,8 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
+import ErrorMessage from '@/components/ErrorMessage.vue'
 
 const pokemons = ref(collect())
+const errorMessage = ref('')
 
 onMounted(async () => {
   await fetchPokemons()
@@ -13,6 +15,7 @@ const fetchPokemons = async () => {
   const { data, error } = await supabase.from('pokemons').select('*')
   if (error) {
     console.error('Error fetching Pokémon:', error)
+    errorMessage.value = 'Failed to load Pokémon 😔'
   } else {
     pokemons.value = getRandomPokemons(data, 2)
   }
@@ -55,7 +58,9 @@ const handleVote = async (winnerId) => {
       <h1 class="text-3xl text-center">which is best?</h1>
     </div>
     <div class="flex justify-center items-center mt-12">
-      <div v-if="pokemons.count() === 2" class="flex gap-12 md:gap-32">
+      <ErrorMessage v-if="errorMessage" :message="errorMessage" />
+
+      <div v-else-if="pokemons.count() === 2" class="flex gap-12 md:gap-32">
         <div v-for="pokemon in pokemons" :key="pokemon.id" class="flex flex-col items-center">
           <img
             :src="pokemon.image_url"
