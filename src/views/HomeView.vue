@@ -1,52 +1,52 @@
 <script setup>
-import { ref, onMounted } from "vue";
-import { supabase } from "../lib/supabaseClient";
-import collect from "collect.js";
+import { ref, onMounted } from 'vue'
+import { supabase } from '../lib/supabaseClient'
+import collect from 'collect.js'
 
-const pokemons = ref(collect());
+const pokemons = ref(collect())
 
 onMounted(async () => {
-  await fetchPokemons();
-});
+  await fetchPokemons()
+})
 
 const fetchPokemons = async () => {
-  const { data, error } = await supabase.from("pokemons").select("*");
+  const { data, error } = await supabase.from('pokemons').select('*')
   if (error) {
-    console.error("Error fetching Pokémon:", error);
+    console.error('Error fetching Pokémon:', error)
   } else {
-    pokemons.value = getRandomPokemons(data, 2);
+    pokemons.value = getRandomPokemons(data, 2)
   }
-};
+}
 
 const getRandomPokemons = (pokemonsList, n) => {
-  return collect(pokemonsList).random(n);
-};
+  return collect(pokemonsList).random(n)
+}
 
 const handleVote = async (winnerId) => {
-  if (pokemons.value.count() !== 2) return;
+  if (pokemons.value.count() !== 2) return
 
-  const [firstPokemon, secondPokemon] = pokemons.value;
-  const loserId = firstPokemon.id === winnerId ? secondPokemon.id : firstPokemon.id;
+  const [firstPokemon, secondPokemon] = pokemons.value
+  const loserId = firstPokemon.id === winnerId ? secondPokemon.id : firstPokemon.id
 
   const { error: winError } = await supabase
-    .from("pokemons")
+    .from('pokemons')
     .update({ wins: firstPokemon.id === winnerId ? firstPokemon.wins + 1 : secondPokemon.wins + 1 })
-    .eq("id", winnerId);
+    .eq('id', winnerId)
 
   const { error: lossError } = await supabase
-    .from("pokemons")
+    .from('pokemons')
     .update({
       losses: firstPokemon.id === loserId ? firstPokemon.losses + 1 : secondPokemon.losses + 1,
     })
-    .eq("id", loserId);
+    .eq('id', loserId)
 
   if (winError || lossError) {
-    console.error("Error updating votes:", winError || lossError);
+    console.error('Error updating votes:', winError || lossError)
   } else {
-    console.log("Vote successful!");
-    await fetchPokemons();
+    console.log('Vote successful!')
+    await fetchPokemons()
   }
-};
+}
 </script>
 
 <template>
