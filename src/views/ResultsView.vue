@@ -4,6 +4,7 @@ import { supabase } from "../lib/supabaseClient";
 import collect from "collect.js";
 
 const pokemons = ref(collect());
+const errorMessage = ref("");
 const sortBy = ref("winRate");
 const desc = ref(false);
 const showBackToTop = ref(false);
@@ -22,6 +23,7 @@ const fetchPokemons = async () => {
 
   if (error) {
     console.error("Error fetching Pokémon results:", error);
+    errorMessage.value = "Failed to load Pokémon data 😔";
     return;
   }
 
@@ -115,6 +117,12 @@ onUnmounted(() => {
             <path d="M6 10L12 16L18 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </button>
+      </div>
+
+      <div v-if="errorMessage" class="flex justify-center mt-12">
+        <p class="text-red-500 text-xl font-semibold bg-red-400/30 rounded-lg px-4 py-2 text-center">
+          {{ errorMessage }}
+        </p>
       </div>
 
       <div
