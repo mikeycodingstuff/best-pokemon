@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js'
 
 export default async (req) => {
   const { next_run } = await req.json()
@@ -24,10 +24,14 @@ export const config = {
 function getOrdinalSuffix(day) {
   if (day > 3 && day < 21) return 'th'
   switch (day % 10) {
-    case 1: return 'st'
-    case 2: return 'nd'
-    case 3: return 'rd'
-    default: return 'th'
+    case 1:
+      return 'st'
+    case 2:
+      return 'nd'
+    case 3:
+      return 'rd'
+    default:
+      return 'th'
   }
 }
 
