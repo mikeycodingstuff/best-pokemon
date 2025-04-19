@@ -3,7 +3,7 @@ import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
 import ErrorMessage from '@/components/ErrorMessage.vue'
-import Fuse from "fuse.js";
+import Fuse from 'fuse.js'
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
