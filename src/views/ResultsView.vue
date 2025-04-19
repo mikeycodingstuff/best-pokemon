@@ -3,11 +3,13 @@ import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
 import ErrorMessage from '@/components/ErrorMessage.vue'
+import Fuse from "fuse.js";
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
 const sortBy = ref('winRate')
 const desc = ref(false)
+const searchQuery = ref('')
 const showBackToTop = ref(false)
 
 const formattedId = (id) => `#${id.toString().padStart(4, '0')}`
@@ -72,6 +74,21 @@ const toggleSortOrder = () => {
   desc.value = !desc.value
 }
 
+const filteredPokemons = computed(() => {
+  if (!searchQuery.value.trim()) {
+    return sortedPokemons.value
+  }
+
+  const fuse = new Fuse(sortedPokemons.value.items, {
+    keys: ['name', 'id'],
+    threshold: 0.3,
+  })
+
+  const result = fuse.search(searchQuery.value)
+
+  return result.map((r) => r.item)
+})
+
 const onScroll = () => {
   showBackToTop.value = window.scrollY > 300
 }
@@ -99,7 +116,7 @@ onUnmounted(() => {
       <div class="flex justify-between items-center">
         <select
           v-model="sortBy"
-          class="p-2 rounded bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 border-r-8 border-transparent"
+          class="p-2 rounded bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 border-r-8 border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <option value="id">id</option>
           <option value="name">name</option>
@@ -109,7 +126,7 @@ onUnmounted(() => {
         </select>
         <button
           @click="toggleSortOrder"
-          class="cursor-pointer rounded p-2 bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700"
+          class="cursor-pointer rounded p-2 bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           <svg
             v-if="desc"
@@ -144,10 +161,16 @@ onUnmounted(() => {
         </button>
       </div>
 
+      <input
+        v-model="searchQuery"
+        placeholder="search..."
+        class="p-2 rounded bg-stone-800 text-stone-300 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+      />
+
       <ErrorMessage v-if="errorMessage" :message="errorMessage" class="mt-12" />
 
       <div
-        v-for="pokemon in sortedPokemons"
+        v-for="pokemon in filteredPokemons"
         :key="pokemon.id"
         class="bg-stone-800 p-4 rounded-lg flex items-center"
       >
@@ -171,7 +194,7 @@ onUnmounted(() => {
       <button
         v-if="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-4 right-4 bg-indigo-500 p-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all"
+        class="fixed bottom-4 right-4 bg-indigo-500 p-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-stone-100"
       >
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path

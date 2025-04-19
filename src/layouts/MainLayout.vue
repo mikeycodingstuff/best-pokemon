@@ -4,7 +4,7 @@
       <div class="flex justify-center">
         <RouterLink
           to="/"
-          class="text-7xl text-indigo-300 hover:text-indigo-400 transition-colors duration-300"
+          class="text-7xl p-3 rounded text-indigo-300 hover:text-indigo-400 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           best pokémon
         </RouterLink>
@@ -12,19 +12,19 @@
       <nav class="flex p-3 gap-5 justify-center mt-5">
         <RouterLink
           to="/"
-          class="text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors"
+          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           home
         </RouterLink>
         <RouterLink
           to="/about"
-          class="text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors"
+          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           about
         </RouterLink>
         <RouterLink
           to="/results"
-          class="text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors"
+          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           results
         </RouterLink>
