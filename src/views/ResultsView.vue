@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, onUnmounted } from 'vue'
+import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
 import ErrorMessage from '@/components/ErrorMessage.vue'
@@ -100,7 +100,12 @@ const scrollToTop = () => {
   })
 }
 
+watch(searchQuery, (val) => {
+  localStorage.setItem('searchQuery', val)
+})
+
 onMounted(() => {
+  searchQuery.value = localStorage.getItem('searchQuery') || ''
   fetchPokemons()
   window.addEventListener('scroll', onScroll)
 })
