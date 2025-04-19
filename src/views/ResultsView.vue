@@ -166,11 +166,21 @@ onUnmounted(() => {
         </button>
       </div>
 
-      <input
-        v-model="searchQuery"
-        placeholder="search..."
-        class="p-2 rounded bg-stone-800 text-stone-300 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-      />
+      <div class="relative">
+        <input
+          v-model="searchQuery"
+          placeholder="search..."
+          class="w-full p-2 pr-10 rounded bg-stone-800 text-stone-300 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        />
+        <button
+          v-if="searchQuery"
+          @click="searchQuery = ''"
+          class="absolute right-2 p-2 text-stone-400 hover:text-indigo-400 hover:cursor-pointer focus:outline-none"
+          aria-label="Clear search"
+        >
+          ✕
+        </button>
+      </div>
 
       <ErrorMessage v-if="errorMessage" :message="errorMessage" class="mt-12" />
 
