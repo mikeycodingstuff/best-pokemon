@@ -193,7 +193,7 @@ onUnmounted(() => {
 
         <div class="ml-4 w-full flex flex-col gap-y-2">
           <div class="flex justify-between">
-            <h3 class="text-xl font-bold">{{ pokemon.name }}</h3>
+            <h2 class="text-xl font-bold">{{ pokemon.name }}</h2>
             <p class="text-stone-400">ID: {{ formattedId(pokemon.id) }}</p>
           </div>
 
