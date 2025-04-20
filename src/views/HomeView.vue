@@ -3,10 +3,10 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
 import ErrorMessage from '@/components/ErrorMessage.vue'
+import { formattedId } from '@/utils/format.js'
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
-const formattedId = (id) => `#${id.toString().padStart(4, '0')}`
 
 onMounted(async () => {
   await fetchPokemons()

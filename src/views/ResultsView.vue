@@ -4,6 +4,7 @@ import { supabase } from '../lib/supabaseClient'
 import collect from 'collect.js'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import Fuse from 'fuse.js'
+import { formattedId } from '@/utils/format.js'
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
@@ -11,8 +12,6 @@ const sortBy = ref('winRate')
 const desc = ref(false)
 const searchQuery = ref('')
 const showBackToTop = ref(false)
-
-const formattedId = (id) => `#${id.toString().padStart(4, '0')}`
 
 const winPercentage = (wins, losses) => {
   const total = wins + losses
