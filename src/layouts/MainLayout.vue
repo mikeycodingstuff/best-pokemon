@@ -1,37 +1,27 @@
+<script setup>
+import NavLink from '@/components/NavLink.vue'
+</script>
+
 <template>
-  <div class="h-screen">
+  <div class="h-screen flex flex-col">
     <div class="p-3">
       <div class="flex justify-center">
         <RouterLink
           to="/"
-          class="text-7xl p-3 rounded text-indigo-300 hover:text-indigo-400 transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+          class="text-7xl p-3 rounded bg-gradient-to-r from-rose-300 to-rose-300 text-transparent bg-clip-text hover:from-rose-300 hover:to-amber-300 transition-colors duration-500 focus:outline-none focus-visible:ring-4 focus:ring-rose-300"
         >
           best pokémon
         </RouterLink>
       </div>
+
       <nav class="flex p-3 gap-5 justify-center mt-5">
-        <RouterLink
-          to="/"
-          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >
-          home
-        </RouterLink>
-        <RouterLink
-          to="/about"
-          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >
-          about
-        </RouterLink>
-        <RouterLink
-          to="/results"
-          class="px-1 rounded text-xl hover:text-indigo-300 hover:cursor-pointer transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >
-          results
-        </RouterLink>
+        <NavLink to="/">home</NavLink>
+        <NavLink to="/about">about</NavLink>
+        <NavLink to="/results">results</NavLink>
       </nav>
     </div>
 
-    <main>
+    <main class="grow">
       <RouterView v-slot="{ Component }">
         <KeepAlive>
           <component :is="Component" />
