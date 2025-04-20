@@ -72,7 +72,7 @@ const handleVote = async (winnerId) => {
           <h3>{{ pokemon.name }}</h3>
           <button
             @click="handleVote(pokemon.id)"
-            class="px-4 py-2 mt-4 rounded-lg bg-indigo-500 hover:cursor-pointer hover:bg-indigo-700 transition duration-300 hover:scale-110"
+            class="px-4 py-2 mt-4 rounded-lg bg-indigo-500 hover:cursor-pointer hover:bg-indigo-700 transition duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus:ring-stone-100"
           >
             Vote
           </button>

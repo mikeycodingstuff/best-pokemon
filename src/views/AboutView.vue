@@ -5,27 +5,21 @@
         This is a very simple
         <a
           href="https://vuejs.org/"
-          class="text-indigo-300 hover:text-indigo-400 transition-colors"
-        >
-          Vue
-        </a>
+          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+        >Vue</a>
         app I built to teach myself how to deploy an app to production!
       </p>
       <p class="text-center">
         It is published to
         <a
           href="https://www.netlify.com/"
-          class="text-indigo-300 hover:text-indigo-400 transition-colors"
-        >
-          Netlify
-        </a>
+          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+        >Netlify</a>
         and uses
         <a
           href="https://supabase.com/"
-          class="text-indigo-300 hover:text-indigo-400 transition-colors"
-        >
-          Supabase
-        </a>
+          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+        >Supabase</a>
         for the back end.
       </p>
     </div>
