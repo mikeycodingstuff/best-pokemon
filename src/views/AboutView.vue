@@ -6,7 +6,9 @@
         <a
           href="https://vuejs.org/"
           class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >Vue</a>
+        >
+          Vue</a
+        >
         app I built to teach myself how to deploy an app to production!
       </p>
       <p class="text-center">
@@ -14,12 +16,14 @@
         <a
           href="https://www.netlify.com/"
           class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >Netlify</a>
+          >Netlify</a
+        >
         and uses
         <a
           href="https://supabase.com/"
           class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
-        >Supabase</a>
+          >Supabase</a
+        >
         for the back end.
       </p>
     </div>
