@@ -6,6 +6,7 @@ import ErrorMessage from '@/components/ErrorMessage.vue'
 
 const pokemons = ref(collect())
 const errorMessage = ref('')
+const formattedId = (id) => `#${id.toString().padStart(4, '0')}`
 
 onMounted(async () => {
   await fetchPokemons()
@@ -53,32 +54,40 @@ const handleVote = async (winnerId) => {
 </script>
 
 <template>
-  <div class="h-full w-screen bg-stone-900">
-    <div class="py-12">
-      <h1 class="text-3xl text-center">which is best?</h1>
-    </div>
-    <div class="flex justify-center items-center mt-12">
-      <ErrorMessage v-if="errorMessage" :message="errorMessage" />
+  <div class="h-full justify-center flex">
+    <div class="p-10 h-fit mt-10">
+      <h1 class="text-3xl text-center">pick the best pokémon!</h1>
+      <div class="flex justify-center items-center mt-24">
+        <ErrorMessage v-if="errorMessage" :message="errorMessage" />
 
-      <div v-else-if="pokemons.count() === 2" class="flex gap-12 md:gap-32">
-        <div v-for="pokemon in pokemons" :key="pokemon.id" class="flex flex-col items-center">
-          <img
-            :src="pokemon.image_url"
-            :alt="pokemon.name"
-            width="200"
-            height="200"
-            class="object-cover"
-          />
-          <h2>{{ pokemon.name }}</h2>
-          <button
+        <div v-else-if="pokemons.count() === 2" class="flex gap-12 md:gap-28">
+          <div
+            v-for="pokemon in pokemons"
+            :key="pokemon.id"
+            class="flex flex-col items-center py-6 w-sm min-h-[400px] justify-between text-center rounded-2xl bg-gradient-to-b from-stone-300/50 to-stone-300/50 dark:from-stone-700 dark:to-stone-700 hover:cursor-pointer hover:from-rose-300/50 hover:to-amber-300/50 dark:hover:from-rose-300/90 dark:hover:to-amber-200/90 transition duration-300 hover:scale-105 group"
             @click="handleVote(pokemon.id)"
-            class="px-4 py-2 mt-4 rounded-lg bg-indigo-500 hover:cursor-pointer hover:bg-indigo-700 transition duration-300 hover:scale-110 focus:outline-none focus-visible:ring-2 focus:ring-stone-100"
           >
-            Vote
-          </button>
+            <h2
+              class="text-3xl w-full wrap-break-word dark:text-rose-300 dark:group-hover:text-stone-900 transition-colors"
+            >
+              {{ pokemon.name }}{{}}
+            </h2>
+            <img
+              :src="pokemon.image_url"
+              :alt="pokemon.name"
+              width="250"
+              height="250"
+              class="object-cover mb-4"
+            />
+            <h2
+              class="text-stone-500 dark:text-stone-400 dark:group-hover:text-stone-500 font-semibold transition-colors"
+            >
+              {{ formattedId(pokemon.id) }}
+            </h2>
+          </div>
         </div>
+        <p v-else>Loading Pokémon...</p>
       </div>
-      <p v-else>Loading Pokémon...</p>
     </div>
   </div>
 </template>

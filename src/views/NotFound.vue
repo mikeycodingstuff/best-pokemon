@@ -4,7 +4,7 @@
     <p class="text-xl mt-4">Oops! The page you're looking for doesn't exist.</p>
     <RouterLink
       to="/"
-      class="mt-6 px-4 py-2 bg-indigo-500 rounded-lg hover:bg-indigo-700 hover:cursor-pointer transition focus:outline-none focus-visible:ring-2 focus:ring-stone-100"
+      class="mt-6 px-4 py-2 bg-rose-300 rounded-lg hover:bg-rose-400 hover:cursor-pointer transition focus:outline-none focus-visible:ring-2 focus:ring-stone-100"
     >
       Go Home
     </RouterLink>

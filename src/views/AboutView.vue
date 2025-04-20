@@ -5,7 +5,7 @@
         This is a very simple
         <a
           href="https://vuejs.org/"
-          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+          class="rounded text-rose-400/80 dark:text-rose-300 hover:text-rose-700 dark:hover:text-rose-500 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-rose-300"
         >
           Vue</a
         >
@@ -15,13 +15,13 @@
         It is published to
         <a
           href="https://www.netlify.com/"
-          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+          class="rounded text-rose-400/80 dark:text-rose-300 hover:text-rose-700 dark:hover:text-rose-500 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-rose-300"
           >Netlify</a
         >
         and uses
         <a
           href="https://supabase.com/"
-          class="rounded text-indigo-300 hover:text-indigo-400 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-indigo-500"
+          class="rounded text-rose-400/80 dark:text-rose-300 hover:text-rose-700 dark:hover:text-rose-500 transition-colors focus:outline-none focus-visible:ring-2 focus:ring-rose-300"
           >Supabase</a
         >
         for the back end.

@@ -116,12 +116,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="bg-stone-900 p-6 pt-12">
+  <div class="bg-stone-100 dark:bg-stone-900 p-6 pt-12">
     <div class="max-w-2xl mx-auto flex flex-col gap-4 relative">
       <div class="flex justify-between items-center">
         <select
           v-model="sortBy"
-          class="p-2 rounded bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 border-r-8 border-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="p-2 rounded border-r-8 border-transparent bg-stone-300/70 hover:bg-stone-400/70 dark:bg-stone-800 dark:text-stone-300 hover:cursor-pointer dark:hover:bg-stone-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-rose-300"
         >
           <option value="id">id</option>
           <option value="name">name</option>
@@ -131,7 +131,7 @@ onUnmounted(() => {
         </select>
         <button
           @click="toggleSortOrder"
-          class="cursor-pointer rounded p-2 bg-stone-800 text-stone-300 hover:cursor-pointer hover:bg-stone-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="p-2 rounded bg-stone-300/70 hover:bg-stone-400/70 dark:bg-stone-800 dark:text-stone-300 hover:cursor-pointer dark:hover:bg-stone-700 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-rose-300"
         >
           <svg
             v-if="desc"
@@ -170,12 +170,12 @@ onUnmounted(() => {
         <input
           v-model="searchQuery"
           placeholder="search..."
-          class="w-full p-2 pr-10 rounded bg-stone-800 text-stone-300 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          class="w-full p-2 pr-10 rounded caret-rose-300 bg-stone-300/70 dark:bg-stone-800 dark:text-stone-300 placeholder-stone-500 focus:outline-none focus:ring-2 focus:ring-rose-300"
         />
         <button
           v-if="searchQuery"
           @click="searchQuery = ''"
-          class="absolute right-2 p-2 text-stone-400 hover:text-indigo-400 hover:cursor-pointer focus:outline-none"
+          class="absolute right-2 p-2 hover:text-rose-300 hover:cursor-pointer focus:outline-none"
           aria-label="Clear search"
         >
           ✕
@@ -187,21 +187,25 @@ onUnmounted(() => {
       <div
         v-for="pokemon in filteredPokemons"
         :key="pokemon.id"
-        class="bg-stone-800 p-4 rounded-lg flex items-center"
+        class="bg-stone-300/70 dark:bg-stone-800 dark:text-stone-300 p-4 rounded-lg flex items-center"
       >
-        <img :src="pokemon.image_url" :alt="pokemon.name" class="w-16 h-16 rounded-full" />
+        <img :src="pokemon.image_url" :alt="pokemon.name" class="w-24 h-24 rounded-full" />
 
         <div class="ml-4 w-full flex flex-col gap-y-2">
           <div class="flex justify-between">
-            <h2 class="text-xl font-bold">{{ pokemon.name }}</h2>
-            <p class="text-stone-400">ID: {{ formattedId(pokemon.id) }}</p>
+            <h2 class="text-xl font-bold text-rose-400/80 dark:text-rose-300">
+              {{ pokemon.name }}
+            </h2>
+            <p class="text-stone-500 dark:text-stone-400">ID: {{ formattedId(pokemon.id) }}</p>
           </div>
 
           <div class="flex justify-between">
-            <p class="font-semibold text-stone-300">win rate: {{ pokemon.winRate.toFixed(1) }}%</p>
+            <p class="font-semibold text-stone-500 dark:text-stone-400">
+              win rate: {{ pokemon.winRate.toFixed(1) }}%
+            </p>
             <div class="text-stone-300 flex gap-2">
-              <span class="text-green-400/80">{{ pokemon.wins }} wins</span>
-              <span class="text-red-400/80">{{ pokemon.losses }} losses</span>
+              <span class="text-green-500/80 dark:text-green-400/80">{{ pokemon.wins }} wins</span>
+              <span class="text-red-500/80 dark:text-red-400/80">{{ pokemon.losses }} losses</span>
             </div>
           </div>
         </div>
@@ -209,7 +213,7 @@ onUnmounted(() => {
       <button
         v-if="showBackToTop"
         @click="scrollToTop"
-        class="fixed bottom-4 right-4 bg-indigo-500 p-3 rounded-lg shadow-lg hover:bg-indigo-600 hover:cursor-pointer transition-all focus:outline-none focus:ring-2 focus:ring-stone-100"
+        class="fixed bottom-4 right-4 p-3 rounded-lg shadow-lg bg-gradient-to-b from-stone-300/50 to-stone-300/50 dark:from-stone-700 dark:to-stone-700 hover:cursor-pointer hover:from-rose-300/50 hover:to-amber-300/50 dark:hover:from-rose-300/90 dark:hover:to-amber-200/90 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-stone-100"
       >
         <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
