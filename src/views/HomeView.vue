@@ -54,17 +54,17 @@ const handleVote = async (winnerId) => {
 </script>
 
 <template>
-  <div class="h-full justify-center flex">
-    <div class="p-10 h-fit mt-10">
+  <div class="h-full justify-center flex bg-stone-100">
+    <div class="p-6 lg:p-10 h-fit lg:mt-10">
       <h1 class="text-3xl text-center">pick the best pokémon!</h1>
-      <div class="flex justify-center items-center mt-24">
+      <div class="flex justify-center items-center mt-10 lg:mt-24">
         <ErrorMessage v-if="errorMessage" :message="errorMessage" />
 
-        <div v-else-if="pokemons.count() === 2" class="flex gap-12 md:gap-28">
+        <div v-else-if="pokemons.count() === 2" class="flex gap-12 lg:gap-28">
           <div
             v-for="pokemon in pokemons"
             :key="pokemon.id"
-            class="flex flex-col items-center py-6 w-sm min-h-[400px] justify-between text-center rounded-2xl bg-gradient-to-b from-stone-300/50 to-stone-300/50 dark:from-stone-700 dark:to-stone-700 hover:cursor-pointer hover:from-rose-300/50 hover:to-amber-300/50 dark:hover:from-rose-300/90 dark:hover:to-amber-200/90 transition duration-300 hover:scale-105 group"
+            class="flex flex-col items-center p-3 py-6 lg:w-sm max-w-3xs lg:min-h-[400px] justify-between text-center rounded-2xl bg-gradient-to-b from-stone-300/50 to-stone-300/50 dark:from-stone-700 dark:to-stone-700 hover:cursor-pointer hover:from-rose-300/50 hover:to-amber-300/50 dark:hover:from-rose-300/90 dark:hover:to-amber-200/90 transition duration-300 hover:scale-105 group"
             @click="handleVote(pokemon.id)"
           >
             <h2
