@@ -54,7 +54,7 @@ const handleVote = async (winnerId) => {
 </script>
 
 <template>
-  <div class="h-full justify-center flex bg-stone-100">
+  <div class="h-full justify-center flex bg-stone-100 dark:bg-stone-900">
     <div class="p-6 lg:p-10 h-fit lg:mt-10">
       <h1 class="text-3xl text-center">pick the best pokémon!</h1>
       <div class="flex justify-center items-center mt-10 lg:mt-24">
