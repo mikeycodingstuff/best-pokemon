@@ -4,7 +4,7 @@ export default async (req) => {
   const { next_run } = await req.json()
   const supabase = createClient(
     process.env.VITE_SUPABASE_DATABASE_URL,
-    process.env.VITE_SUPABASE_ANON_KEY,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   )
   const { error } = await supabase.from('pokemons').select('*').limit(1)
 
