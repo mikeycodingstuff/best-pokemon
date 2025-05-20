@@ -6,7 +6,7 @@ export default async (req) => {
     process.env.VITE_SUPABASE_DATABASE_URL,
     process.env.SUPABASE_SERVICE_ROLE_KEY,
   )
-  const { error } = await supabase.from('pokemons').select('*').limit(1)
+  const { error } = await supabase.from('pokemons').select('*')
 
   if (error) {
     console.log(`Failed to ping Supabase: ${error.message}.`)
