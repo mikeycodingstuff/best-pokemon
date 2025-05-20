@@ -15,7 +15,6 @@ onMounted(async () => {
 const fetchPokemons = async () => {
   const { data, error } = await supabase.from('pokemons').select('*')
   if (error) {
-    console.error('Error fetching Pokémon:', error)
     errorMessage.value = 'Failed to load Pokémon 😔'
   } else {
     pokemons.value = getRandomPokemons(data, 2)
@@ -32,24 +31,19 @@ const handleVote = async (winnerId) => {
   const [firstPokemon, secondPokemon] = pokemons.value
   const loserId = firstPokemon.id === winnerId ? secondPokemon.id : firstPokemon.id
 
-  const { error: winError } = await supabase
+  await supabase
     .from('pokemons')
     .update({ wins: firstPokemon.id === winnerId ? firstPokemon.wins + 1 : secondPokemon.wins + 1 })
     .eq('id', winnerId)
 
-  const { error: lossError } = await supabase
+  await supabase
     .from('pokemons')
     .update({
       losses: firstPokemon.id === loserId ? firstPokemon.losses + 1 : secondPokemon.losses + 1,
     })
     .eq('id', loserId)
 
-  if (winError || lossError) {
-    console.error('Error updating votes:', winError || lossError)
-  } else {
-    console.log('Vote successful!')
-    await fetchPokemons()
-  }
+  await fetchPokemons()
 }
 </script>
 

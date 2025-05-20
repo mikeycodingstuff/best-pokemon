@@ -24,7 +24,6 @@ const fetchPokemons = async () => {
     .select('id, name, wins, losses, image_url')
 
   if (error) {
-    console.error('Error fetching Pokémon results:', error)
     errorMessage.value = 'Failed to load Pokémon data 😔'
     return
   }
